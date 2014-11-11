@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="CI-example" default="buildEnvironment" basedir=".">
+
+	<!-- Folders Properties -->
+	<property name="sourceFolder" value="src"/>
+	<property name="destFolder" value="bin"/>
+	<property name="libsFolder" value="libs"/>
+	<property name="testSourceFolder" value="test"/>
+	<property name="testSuiteFolder" value="testSuite"/>	
+	<property name="testResultsFolder" value="${testSuiteFolder}/testResults"/>
+	<property name="testBinFolder" value="${testSuiteFolder}/testBin"/>
+	
+	<!-- jUnit Jar Properties -->
+	<property name="jUnitJar" value="C:\Program Files\eclipse\plugins\org.junit_4.11.0.v201303080030\junit.jar"/>
+	<property name="jUnitHamcrestJar" value="C:\Program Files\eclipse\plugins\org.hamcrest.core_1.3.0.v201303031735.jar"/>
+		
+	<target name="buildEnvironment">
+		<echo>CI example hello world</echo>
+	</target>
+	
+	<target name="clean">
+		<delete dir="${destFolder}"/>
+		<delete dir="${testSuiteFolder}"/>
+		<delete dir="${javaDocsFolder}"/>
+		
+		<mkdir dir="${destFolder}"/>
+		<mkdir dir="${testBinFolder}"/>
+		<mkdir dir="${testResultsFolder}"/>
+		
+	</target>
+	
+	<target name="compile" depends="clean">
+		<javac 	srcdir="${sourceFolder}"
+				destdir="${destFolder}"
+				includeantruntime="No"
+
+			classpath="${mockitoJar};${jUnitJar};${jUnitHamcrestJar};${destFolder}"
+
+		/>
+	</target>
+	
+	<target name="compileTests" depends="compile">
+		<javac 	srcdir="${testSourceFolder}"
+				destdir="${testBinFolder}"
+				includeantruntime="No"
+				classpath="${mockitoJar};${jUnitJar};${jUnitHamcrestJar};${destFolder}"
+				 />
+	</target>
+	
+	<target name="runTests" depends="compileTests">
+		<junit printsummary="on" haltonfailure="false">
+			<batchtest fork="yes" todir="${testResultsFolder}">
+				<fileset dir="${testBinFolder}" includes="**/*TestCase.class"/>
+				<formatter type="xml"/>
+			</batchtest>
+			<classpath>
+				<pathelement location="${jUnitJar}"/>
+				<pathelement location="${jUnitHamcrestJar}"/>
+				<pathelement location="${testBinFolder}"/>
+				<pathelement location="${destFolder}"/>
+			</classpath>
+		</junit>
+	</target>
+	
+	
+
+</project>
