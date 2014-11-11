@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="CI-example" default="buildEnvironment" basedir=".">
+<project name="CI-example" default="helloWorld" basedir=".">
 
 	<!-- Folders Properties -->
 	<property name="sourceFolder" value="src"/>
@@ -11,10 +11,10 @@
 	<property name="testBinFolder" value="${testSuiteFolder}/testBin"/>
 	
 	<!-- jUnit Jar Properties -->
-	<property name="jUnitJar" value="C:\Program Files\eclipse\plugins\org.junit_4.11.0.v201303080030\junit.jar"/>
-	<property name="jUnitHamcrestJar" value="C:\Program Files\eclipse\plugins\org.hamcrest.core_1.3.0.v201303031735.jar"/>
+	<property name="jUnitJar" value="${libsFolder}\junit.jar"/>
+	<property name="jUnitHamcrestJar" value="${libsFolder}\org.hamcrest.core_1.3.0.v201303031735.jar"/>
 		
-	<target name="buildEnvironment">
+	<target name="helloWorld">
 		<echo>CI example hello world</echo>
 	</target>
 	
@@ -34,7 +34,7 @@
 				destdir="${destFolder}"
 				includeantruntime="No"
 
-			classpath="${mockitoJar};${jUnitJar};${jUnitHamcrestJar};${destFolder}"
+			classpath="${jUnitJar};${jUnitHamcrestJar};${destFolder}"
 
 		/>
 	</target>
@@ -43,7 +43,7 @@
 		<javac 	srcdir="${testSourceFolder}"
 				destdir="${testBinFolder}"
 				includeantruntime="No"
-				classpath="${mockitoJar};${jUnitJar};${jUnitHamcrestJar};${destFolder}"
+				classpath="${jUnitJar};${jUnitHamcrestJar};${destFolder}"
 				 />
 	</target>
 	
